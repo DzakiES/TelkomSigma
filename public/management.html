@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manajemen Data - Random User Analytics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/futuristic.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>
+          <svg class="icon-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+          </svg>
+          Random User Analytics
+        </h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Beranda</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/management" class="active">Manajemen Data</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      <div class="page-header">
+        <h2>
+          <svg class="icon-header" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+          </svg>
+          Manajemen Data User
+        </h2>
+        <p>Kelola data user dengan fitur CRUD lengkap</p>
+      </div>
+
+      <!-- Sync Section -->
+      <div class="sync-section">
+        <div class="sync-info">
+          <span class="sync-label">
+            <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Terakhir Sync:
+          </span>
+          <span id="lastSyncTime">Belum ada sinkronisasi</span>
+        </div>
+        <div class="sync-actions">
+          <select id="syncCount" title="Jumlah data untuk sync">
+            <option value="10">10 Users</option>
+            <option value="25">25 Users</option>
+            <option value="50" selected>50 Users</option>
+            <option value="100">100 Users</option>
+          </select>
+          <button class="btn btn-sync" onclick="syncData()">
+            <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Sync Data dari API
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter & Search Section -->
+      <div class="filter-section">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari nama, email, atau kota..."
+            onkeyup="debounceSearch()"
+          />
+          <button class="btn btn-search" onclick="loadUsers()" title="Cari">
+            <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+          </button>
+        </div>
+        <div class="filters">
+          <select
+            id="filterGender"
+            onchange="loadUsers()"
+            title="Filter berdasarkan gender"
+          >
+            <option value="">Semua Gender</option>
+            <option value="male">Laki-laki</option>
+            <option value="female">Perempuan</option>
+          </select>
+          <select
+            id="filterNationality"
+            onchange="loadUsers()"
+            title="Filter berdasarkan nationality"
+          >
+            <option value="">Semua Nationality</option>
+          </select>
+          <input
+            type="date"
+            id="filterStartDate"
+            onchange="loadUsers()"
+            title="Dari tanggal"
+          />
+          <input
+            type="date"
+            id="filterEndDate"
+            onchange="loadUsers()"
+            title="Sampai tanggal"
+          />
+        </div>
+        <button class="btn btn-primary" onclick="openCreateModal()">
+          <svg class="icon-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Tambah User
+        </button>
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-container">
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th data-sort="id" onclick="sortTable('id')">
+                ID <span class="sort-icon">↕</span>
+              </th>
+              <th>Foto</th>
+              <th data-sort="first_name" onclick="sortTable('first_name')">
+                Nama <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="email" onclick="sortTable('email')">
+                Email <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="gender" onclick="sortTable('gender')">
+                Gender <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="age" onclick="sortTable('age')">
+                Usia <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="nationality" onclick="sortTable('nationality')">
+                Nationality <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="country" onclick="sortTable('country')">
+                Negara <span class="sort-icon">↕</span>
+              </th>
+              <th
+                data-sort="registered_date"
+                onclick="sortTable('registered_date')"
+              >
+                Tgl Register <span class="sort-icon">↕</span>
+              </th>
+              <th data-sort="updated_at" onclick="sortTable('updated_at')">
+                Last Updated <span class="sort-icon">↕</span>
+              </th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr>
+              <td colspan="11" class="loading">Memuat data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="btn btn-page" onclick="changePage('prev')" id="prevBtn">
+          ← Sebelumnya
+        </button>
+        <span id="pageInfo">Halaman 1 dari 1</span>
+        <button class="btn btn-page" onclick="changePage('next')" id="nextBtn">
+          Selanjutnya →
+        </button>
+        <select
+          id="limitSelect"
+          onchange="changeLimit()"
+          title="Jumlah data per halaman"
+        >
+          <option value="10" selected>10 per halaman</option>
+          <option value="25">25 per halaman</option>
+          <option value="50">50 per halaman</option>
+          <option value="100">100 per halaman</option>
+        </select>
+      </div>
+    </main>
+
+    <!-- Modal Create/Edit -->
+    <div id="userModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Tambah User Baru</h3>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <form id="userForm" onsubmit="saveUser(event)">
+          <input type="hidden" id="userId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <select id="title" title="Title">
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Miss">Miss</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender *</label>
+              <select id="gender" required title="Gender">
+                <option value="male">Laki-laki</option>
+                <option value="female">Perempuan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="firstName">Nama Depan *</label>
+              <input type="text" id="firstName" required title="Nama Depan" />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Nama Belakang *</label>
+              <input type="text" id="lastName" required title="Nama Belakang" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" required title="Email" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Telepon</label>
+              <input type="text" id="phone" title="Telepon" />
+            </div>
+            <div class="form-group">
+              <label for="cell">HP</label>
+              <input type="text" id="cell" title="HP" />
+            </div>
+            <div class="form-group">
+              <label for="dateOfBirth">Tanggal Lahir</label>
+              <input type="date" id="dateOfBirth" title="Tanggal Lahir" />
+            </div>
+            <div class="form-group">
+              <label for="age">Usia</label>
+              <input type="number" id="age" min="0" max="150" title="Usia" />
+            </div>
+            <div class="form-group">
+              <label for="nationality">Nationality</label>
+              <input
+                type="text"
+                id="nationality"
+                maxlength="2"
+                placeholder="ID, US, GB..."
+                title="Nationality"
+              />
+            </div>
+            <div class="form-group">
+              <label for="city">Kota</label>
+              <input type="text" id="city" title="Kota" />
+            </div>
+            <div class="form-group">
+              <label for="state">Provinsi/State</label>
+              <input type="text" id="state" title="Provinsi/State" />
+            </div>
+            <div class="form-group">
+              <label for="country">Negara</label>
+              <input type="text" id="country" title="Negara" />
+            </div>
+            <div class="form-group">
+              <label for="postcode">Kode Pos</label>
+              <input type="text" id="postcode" title="Kode Pos" />
+            </div>
+            <div class="form-group">
+              <label for="registeredDate">Tanggal Registrasi</label>
+              <input
+                type="date"
+                id="registeredDate"
+                title="Tanggal Registrasi"
+              />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal()"
+            >
+              Batal
+            </button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal View Detail -->
+    <div id="viewModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Detail User</h3>
+          <button class="close-btn" onclick="closeViewModal()">&times;</button>
+        </div>
+        <div id="userDetail" class="user-detail">
+          <!-- Detail will be populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <footer>
+      <p>© 2024 Random User Analytics - Menggunakan API dari randomuser.me</p>
+    </footer>
+
+    <script src="js/management.js"></script>
+  </body>
+</html>

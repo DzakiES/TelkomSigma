@@ -1,0 +1,16 @@
+{
+  "name": "random-user-analytics",
+  "version": "1.0.0",
+  "description": "Aplikasi konsumsi API publik dengan dashboard analitik",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5"
+  }
+}
