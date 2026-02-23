@@ -72,8 +72,6 @@ npm start
 | POST | `/api/sync` | Sinkronisasi data dari Random User API |
 | GET | `/api/dashboard/stats` | Statistik untuk dashboard |
 
-## Screenshot
-
 ### Beranda
 Halaman utama dengan navigasi ke fitur-fitur aplikasi.
 
@@ -82,6 +80,10 @@ Visualisasi data dengan berbagai chart analitik.
 
 ### Manajemen Data
 Tabel data dengan fitur CRUD, filter, dan pagination.
+
+## Note
+Karena Data yang digunakan adalah Random, jadi akan susah untuk memunculkan data yang dibuat di 1 bulan ini. maka dari itu anda bisa membuat manual data baru di "Manajemen Data" atau mengubah filternya di "Dashboard"
+
 
 ## Author
 
